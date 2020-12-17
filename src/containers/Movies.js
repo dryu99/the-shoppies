@@ -1,13 +1,16 @@
 import React from 'react';
 
-const Movies = ({ movies }) => {
+const Movies = ({ movies, searchText }) => {
   return (
     <div>
-      {movies.map(m =>
-        <div key={m.imdbID}>
-          {m.Title}
-        </div>
-      )}
+      <h3>Results for {`"${searchText}"`}</h3>
+      <ul>
+        {movies.map(m =>
+          <li key={m.imdbID}>
+            {m.Title} ({m.Year})
+          </li>
+        )}
+      </ul>
     </div>
   );
 };
