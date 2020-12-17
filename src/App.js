@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Movies from './containers/Movies';
+import SearchBar from './containers/SearchBar';
+import movieService from './services/movies';
 
 function App() {
+  const [searchText, setSearchText] = useState('');
+  const [movies, setMovies] = useState([]);
+  // const [nominations, setNominations] = useState([]);
+
+  const handleSearchTextChange = (newSearchText) => {
+    // update current movie list
+    movieService
+      .getMoviesBySearch(newSearchText)
+      .then(movies => {
+        setMovies(movies);
+      });
+
+    setSearchText(newSearchText);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>The Shoppies</h1>
+      <SearchBar handleSearchTextChange={handleSearchTextChange} />
+      <Movies movies={movies} searchText={searchText}/>
     </div>
   );
 }
