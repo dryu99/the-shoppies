@@ -7,15 +7,21 @@ import movieService from './services/movies';
 function App() {
   // TODO maybe better to keep track of items via dictionary
   const [searchText, setSearchText] = useState('');
+  const [searchError, setSearchError] = useState(null);
   const [movies, setMovies] = useState([]);
   const [nominationIDs, setNominationIDs] = useState({}); // key = imdbID, val = movie JSON
 
   const handleSearchTextChange = (newSearchText) => {
     // update current movie list
     movieService
-      .getMoviesBySearch(newSearchText)
+      .search(newSearchText)
       .then(movies => {
         setMovies(movies);
+        setSearchError(null);
+      })
+      .catch(error => {
+        setMovies([]);
+        setSearchError(error.message);
       });
 
     setSearchText(newSearchText);
@@ -51,6 +57,7 @@ function App() {
         addNomination={addNomination}
         isMovieNominated={isMovieNominated}
       />
+      {searchError ? <div>{searchError}</div> : null}
       <MovieNominations
         movies={Object.values(nominationIDs)}
         removeNominationByID={removeNominationByID}
