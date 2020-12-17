@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Movie = ({ movie, button }) => {
+const Movie = ({ movie }) => {
   return (
-    <li>
+    <span>
       {movie.Title} ({movie.Year})
-    </li>
+    </span>
   );
 };
 
