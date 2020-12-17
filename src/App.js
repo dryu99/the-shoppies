@@ -5,9 +5,10 @@ import MovieNominations from './containers/MovieNominations';
 import movieService from './services/movies';
 
 function App() {
+  // TODO maybe better to keep track of items via dictionary
   const [searchText, setSearchText] = useState('');
   const [movies, setMovies] = useState([]);
-  const [nominations, setNominations] = useState([]);
+  const [nominationIDs, setNominationIDs] = useState({}); // key = imdbID, val = movie JSON
 
   const handleSearchTextChange = (newSearchText) => {
     // update current movie list
@@ -21,10 +22,21 @@ function App() {
   };
 
   const addNomination = (newNomination) => {
-    setNominations(nominations.concat(newNomination));
+    const newNominationIDs = {
+      ...nominationIDs,
+      [newNomination.imdbID]: newNomination
+    };
+    setNominationIDs(newNominationIDs);
   };
+
   const removeNominationByID = (nominationID) => {
-    setNominations(nominations.filter(n => n.imdbID !== nominationID));
+    const newNominationIDs = { ...nominationIDs };
+    delete newNominationIDs[nominationID];
+    setNominationIDs(newNominationIDs);
+  };
+
+  const isMovieNominated = (movieID) => {
+    return nominationIDs[movieID] ? true : false;
   };
 
   return (
@@ -37,9 +49,10 @@ function App() {
         movies={movies}
         searchText={searchText}
         addNomination={addNomination}
+        isMovieNominated={isMovieNominated}
       />
       <MovieNominations
-        movies={nominations}
+        movies={Object.values(nominationIDs)}
         removeNominationByID={removeNominationByID}
       />
     </div>
