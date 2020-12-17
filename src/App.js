@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Movies from './containers/Movies';
-import SearchBar from './containers/SearchBar';
+import MovieSearchResults from './containers/MovieSearchResults';
+import MovieSearchBar from './containers/MovieSearchBar';
+import MovieNominations from './containers/MovieNominations';
 import movieService from './services/movies';
 
 function App() {
@@ -22,8 +23,9 @@ function App() {
   return (
     <div>
       <h1>The Shoppies</h1>
-      <SearchBar handleSearchTextChange={handleSearchTextChange} />
-      <Movies movies={movies} searchText={searchText}/>
+      <MovieSearchBar handleSearchTextChange={handleSearchTextChange} />
+      <MovieSearchResults movies={movies} searchText={searchText}/>
+      <MovieNominations movies={[]}/>
     </div>
   );
 }

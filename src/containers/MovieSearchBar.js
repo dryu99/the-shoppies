@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearchBar = ({ searchText, handleSearchTextChange }) => {
+const MovieSearchBar = ({ searchText, handleSearchTextChange }) => {
   return (
     <div>
       <h3>Movie Title</h3>
@@ -12,4 +12,4 @@ const SearchBar = ({ searchText, handleSearchTextChange }) => {
   );
 };
 
-export default SearchBar;
+export default MovieSearchBar;
