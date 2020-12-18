@@ -3,26 +3,25 @@ import { useTraceUpdate } from '../hooks';
 import movieService from '../services/movies';
 
 const MovieSearchBar = React.memo((props) => {
-  const { movies, searchText, setMovies, setSearchError, setSearchText } = props;
+  const { movies, searchText, setMovies, setError, setSearchText } = props;
   console.log('search bar');
-  // useTraceUpdate(MovieSearchBar.displayName, props);
+  useTraceUpdate(MovieSearchBar.displayName, props);
 
   const handleSearchTextChange = (e) => {
     const newSearchText = e.target.value;
+    setSearchText(newSearchText);
 
     // update movie search results
     movieService
       .search(newSearchText)
       .then(movies => {
         setMovies(movies);
-        setSearchError(null);
+        setError(null);
       })
       .catch(error => {
         setMovies(movies.length > 1 ? [] : movies); // avoids rerenders
-        setSearchError(error.message);
+        setError(error.message);
       });
-
-    setSearchText(newSearchText);
   };
 
   return (

@@ -5,7 +5,7 @@ import MovieNominations from './containers/MovieNominations';
 
 function App() {
   const [searchText, setSearchText] = useState('');
-  const [searchError, setSearchError] = useState(null);
+  const [error, setError] = useState(null);
   const [movies, setMovies] = useState([]);
   const [nominationIDs, setNominationIDs] = useState({}); // key = imdbID, val = movie JSON
 
@@ -17,16 +17,15 @@ function App() {
         searchText={searchText}
         setMovies={setMovies}
         setSearchText={setSearchText}
-        setSearchError={setSearchError}
+        setError={setError}
       />
       <MovieSearchResults
         movies={movies}
         searchText={searchText}
-        searchError={searchError}
+        error={error}
         nominationIDs={nominationIDs}
         setNominationIDs={setNominationIDs}
       />
-      {/* {searchError ? <div>{searchError}</div> : null} */}
       <MovieNominations
         nominationIDs={nominationIDs}
         setNominationIDs={setNominationIDs}

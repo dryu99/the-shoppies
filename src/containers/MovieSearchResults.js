@@ -4,7 +4,7 @@ import { useTraceUpdate } from '../hooks';
 
 const MovieSearchResults = React.memo((props) => {
   console.log('search results');
-  const { movies, searchText, searchError, nominationIDs, setNominationIDs } = props;
+  const { movies, searchText, error, nominationIDs, setNominationIDs } = props;
   useTraceUpdate(MovieSearchResults.displayName, props);
 
   const addNomination = (newNomination) => {
@@ -22,7 +22,7 @@ const MovieSearchResults = React.memo((props) => {
   return (
     <div>
       <h3>Results for {`"${searchText}"`}</h3>
-      {!searchError ?
+      {!error ?
         <ul>
           {movies.map(m =>
             <li key={m.imdbID}>
@@ -37,7 +37,7 @@ const MovieSearchResults = React.memo((props) => {
           )}
         </ul>
         :
-        <p>{searchError}</p>
+        <p>{error}</p>
       }
     </div>
   );
