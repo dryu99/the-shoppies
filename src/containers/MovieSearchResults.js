@@ -48,7 +48,7 @@ const MovieSearchResults = React.memo((props) => {
 
   return (
     <SearchResultsContainer>
-      <StyledH3>Results for {`"${searchText}"`}</StyledH3>
+      <StyledH3>{searchText.length === 0 ? 'Search up a movie!' : `Results for "${searchText}"`}</StyledH3>
       {!error ?
         <MovieList
           movies={movies}

@@ -12,7 +12,7 @@ const ListItemContainer = styled.div`
   align-items: flex-start;
 `;
 
-// every list item has a button that deals with its respective movie.
+// use 'MovieButton' component prop so movie lists can init any button for each movie.
 const MovieList = ({ movies, MovieButton }) => {
   return (
     <ul>

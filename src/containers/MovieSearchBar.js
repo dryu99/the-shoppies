@@ -33,16 +33,21 @@ const MovieSearchBar = React.memo((props) => {
     setSearchText(newSearchText);
 
     // update movie search results
-    movieService
-      .search(newSearchText)
-      .then(movies => {
-        setMovies(movies);
-        setError(null);
-      })
-      .catch(error => {
-        setMovies(movies.length > 1 ? [] : movies); // avoids rerenders
-        setError(error.message);
-      });
+    if (newSearchText.length > 0) {
+      movieService
+        .search(newSearchText)
+        .then(movies => {
+          setMovies(movies);
+          setError(null);
+        })
+        .catch(error => {
+          setMovies(movies.length > 1 ? [] : movies); // condition exists to avoid rerenders
+          setError(error.message);
+        });
+    } else {
+      setMovies(movies.length > 1 ? [] : movies);
+      setError(null);
+    }
   };
 
   return (
