@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MovieList from '../components/MovieList';
 import { useTraceUpdate } from '../hooks';
@@ -24,27 +24,57 @@ const StyledButton = styled.button`
   padding: 0.4em 0.75em;
 `;
 
-const MovieSearchResults = React.memo((props) => {
-  console.log('search results');
-  const { searchText, nominationIDs, setNominationIDs } = props;
-  // useTraceUpdate(MovieSearchResults.displayName, props);
+const MAX_PAGE_COUNT = 100;
+const MAX_MOVIES_COUNT = 10;
 
+const PageButtonGroup = ({ pageNum, movies, handlePrevPage, handleNextPage }) => {
+  return (
+    <div>
+      <button
+        onClick={handlePrevPage}
+        disabled={pageNum === 1 || pageNum === -1}
+      >
+        {'<'}
+      </button>
+      <button
+        onClick={handleNextPage}
+        disabled={pageNum === MAX_PAGE_COUNT || movies.length < MAX_MOVIES_COUNT || pageNum === -1}
+      >
+        {'>'}
+      </button>
+    </div>
+  );
+};
+
+const MovieSearchResults = React.memo((props) => {
+  const { searchText, nominationIDs, setNominationIDs } = props;
+  useTraceUpdate(MovieSearchResults.displayName, props);
+  console.log('search results', searchText);
+
+  // if page num is -1 sth went wrong, page navigation should be disabled
   const [pageNum, setPageNum] = useState(1);
   const [{ movies, error }, setSearchData] = useState({ movies: [], error: null });
 
+  // use useCallback here so we can reuse code inside + outside useEffect safely
+  const searchMovies = useCallback(
+    (searchText, pageNum) => {
+      movieService.search(searchText, pageNum)
+        .then(newMovies => {
+          setPageNum(pageNum);
+          setSearchData({ movies: newMovies, error: null });
+        })
+        .catch(error => {
+          setPageNum(-1);
+          setSearchData({ movies: [], error: error.message });
+        });
+    },
+    [setPageNum, setSearchData],
+  );
+
   // update search results when search text changes
   useEffect(() => {
-    movieService.search(searchText)
-      .then(movies => {
-        setSearchData({ movies, error: null });
-      })
-      .catch(error => {
-        setSearchData({
-          movies: movies.length > 1 ? [] : movies, // condition exists to avoid rerenders
-          error: error.message
-        });
-      });
-  }, [searchText, setSearchData]);
+    searchMovies(searchText, 1);
+  }, [searchText]);
 
   const addNomination = (newNomination) => {
     const newNominationIDs = {
@@ -58,6 +88,7 @@ const MovieSearchResults = React.memo((props) => {
     return nominationIDs[movieID] ? true : false;
   };
 
+  // declare inside b/c we need to pass fn to MovieList, not an initialized component
   const NominateButton = ({ movie }) => {
     return (
       <StyledButton
@@ -69,15 +100,16 @@ const MovieSearchResults = React.memo((props) => {
     );
   };
 
-  // TODO dont show weird msg
   return (
     <SearchResultsContainer>
       <HeaderContainer>
         <StyledH3>{searchText.length === 0 ? 'Search up a movie!' : `Results for "${searchText}"`}</StyledH3>
-        <div>
-          <button>{'<'}</button>
-          <button>{'>'}</button>
-        </div>
+        <PageButtonGroup
+          pageNum={pageNum}
+          movies={movies}
+          handlePrevPage={() => searchMovies(searchText, pageNum - 1)}
+          handleNextPage={() => searchMovies(searchText, pageNum + 1)}
+        />
       </HeaderContainer>
       <MovieList
         movies={movies}
