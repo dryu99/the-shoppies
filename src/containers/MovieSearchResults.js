@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MovieList from '../components/MovieList';
 import { useTraceUpdate } from '../hooks';
+import movieService from '../services/movies';
 
 const SearchResultsContainer = styled.div`
   margin-right: 1em;
   padding: 1.5em;
   background-color: white;
   border-radius: 3px;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const StyledH3 = styled.h3`
@@ -20,8 +26,25 @@ const StyledButton = styled.button`
 
 const MovieSearchResults = React.memo((props) => {
   console.log('search results');
-  const { movies, searchText, error, nominationIDs, setNominationIDs } = props;
-  useTraceUpdate(MovieSearchResults.displayName, props);
+  const { searchText, nominationIDs, setNominationIDs } = props;
+  // useTraceUpdate(MovieSearchResults.displayName, props);
+
+  const [pageNum, setPageNum] = useState(1);
+  const [{ movies, error }, setSearchData] = useState({ movies: [], error: null });
+
+  // update search results when search text changes
+  useEffect(() => {
+    movieService.search(searchText)
+      .then(movies => {
+        setSearchData({ movies, error: null });
+      })
+      .catch(error => {
+        setSearchData({
+          movies: movies.length > 1 ? [] : movies, // condition exists to avoid rerenders
+          error: error.message
+        });
+      });
+  }, [searchText, setSearchData]);
 
   const addNomination = (newNomination) => {
     const newNominationIDs = {
@@ -46,17 +69,21 @@ const MovieSearchResults = React.memo((props) => {
     );
   };
 
+  // TODO dont show weird msg
   return (
     <SearchResultsContainer>
-      <StyledH3>{searchText.length === 0 ? 'Search up a movie!' : `Results for "${searchText}"`}</StyledH3>
-      {!error ?
-        <MovieList
-          movies={movies}
-          MovieButton={NominateButton}
-        />
-        :
-        <p>{error}</p>
-      }
+      <HeaderContainer>
+        <StyledH3>{searchText.length === 0 ? 'Search up a movie!' : `Results for "${searchText}"`}</StyledH3>
+        <div>
+          <button>{'<'}</button>
+          <button>{'>'}</button>
+        </div>
+      </HeaderContainer>
+      <MovieList
+        movies={movies}
+        MovieButton={NominateButton}
+      />
+      {error !== 'Incorrect IMDb ID.' ? error : null}
     </SearchResultsContainer>
   );
 });

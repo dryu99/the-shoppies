@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTraceUpdate } from '../hooks';
-import movieService from '../services/movies';
 
 const SearchContainer = styled.div`
   margin-bottom: 2em;
@@ -24,30 +23,13 @@ const SearchInput = styled.input`
 `;
 
 const MovieSearchBar = React.memo((props) => {
-  const { movies, searchText, setMovies, setError, setSearchText } = props;
+  const { searchText, setSearchText } = props;
   console.log('search bar');
   useTraceUpdate(MovieSearchBar.displayName, props);
 
   const handleSearchTextChange = (e) => {
     const newSearchText = e.target.value;
     setSearchText(newSearchText);
-
-    // update movie search results
-    if (newSearchText.length > 0) {
-      movieService
-        .search(newSearchText)
-        .then(movies => {
-          setMovies(movies);
-          setError(null);
-        })
-        .catch(error => {
-          setMovies(movies.length > 1 ? [] : movies); // condition exists to avoid rerenders
-          setError(error.message);
-        });
-    } else {
-      setMovies(movies.length > 1 ? [] : movies);
-      setError(null);
-    }
   };
 
   return (
