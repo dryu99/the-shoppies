@@ -1,12 +1,13 @@
-import axios from 'axios';
 const baseUrl = 'http://www.omdbapi.com/?apikey=fbc21677&type=movie';
 
 const search = async (searchText, page=1) => {
-  const res = await axios.get(`${baseUrl}&s=${searchText}&page=${page}`);
-  if (requestSuccessful(res.data)) {
-    return res.data.Search;
+  const response = await fetch(`${baseUrl}&s=${searchText}&page=${page}`);
+  const data = await response.json();
+
+  if (requestSuccessful(data)) {
+    return data.Search;
   } else {
-    throw new Error(res.data.Error);
+    throw new Error(data.Error);
   }
 };
 
