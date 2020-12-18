@@ -4,6 +4,9 @@ import MovieList from '../components/MovieList';
 import { useTraceUpdate } from '../hooks';
 import movieService from '../services/movies';
 
+const MAX_PAGE_COUNT = 100;
+const MAX_MOVIES_COUNT = 10;
+
 const SearchResultsContainer = styled.div`
   margin-right: 1em;
   padding: 1.5em;
@@ -16,6 +19,14 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
 `;
 
+const PageContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  & > div {
+    margin: 0 0.75em;  
+  }
+`;
+
 const StyledH3 = styled.h3`
   margin: 0 0 5px 0;
 `;
@@ -24,8 +35,15 @@ const StyledButton = styled.button`
   padding: 0.4em 0.75em;
 `;
 
-const MAX_PAGE_COUNT = 100;
-const MAX_MOVIES_COUNT = 10;
+const PageRange = ({ pageNum, movies }) => {
+  const currPageRange = pageNum !== -1
+    ? `${(pageNum * 10) - 9}-${((pageNum - 1) * 10) + movies.length}`
+    : null;
+
+  return currPageRange
+    ? <span>{currPageRange}</span>
+    : null;
+};
 
 const PageButtonGroup = ({ pageNum, movies, handlePrevPage, handleNextPage }) => {
   return (
@@ -55,7 +73,7 @@ const MovieSearchResults = React.memo((props) => {
   const [pageNum, setPageNum] = useState(1);
   const [{ movies, error }, setSearchData] = useState({ movies: [], error: null });
 
-  // use useCallback here so we can reuse code inside + outside useEffect safely
+  // use useCallback here so we can reuse code inside + outside useEffect safely.
   const searchMovies = useCallback(
     (searchText, pageNum) => {
       movieService.search(searchText, pageNum)
@@ -103,19 +121,24 @@ const MovieSearchResults = React.memo((props) => {
   return (
     <SearchResultsContainer>
       <HeaderContainer>
-        <StyledH3>{searchText.length === 0 ? 'Search up a movie!' : `Results for "${searchText}"`}</StyledH3>
-        <PageButtonGroup
-          pageNum={pageNum}
-          movies={movies}
-          handlePrevPage={() => searchMovies(searchText, pageNum - 1)}
-          handleNextPage={() => searchMovies(searchText, pageNum + 1)}
-        />
+        <StyledH3>
+          {searchText.length === 0 ? 'Search up a movie!' : `Results for "${searchText}"`}
+        </StyledH3>
+        <PageContainer>
+          <PageRange pageNum={pageNum} movies={movies}/>
+          <PageButtonGroup
+            pageNum={pageNum}
+            movies={movies}
+            handlePrevPage={() => searchMovies(searchText, pageNum - 1)}
+            handleNextPage={() => searchMovies(searchText, pageNum + 1)}
+          />
+        </PageContainer>
       </HeaderContainer>
       <MovieList
         movies={movies}
         MovieButton={NominateButton}
       />
-      {error !== 'Incorrect IMDb ID.' ? error : null}
+      {error !== 'Incorrect IMDb ID.' ? <p>{error}</p> : null}
     </SearchResultsContainer>
   );
 });
