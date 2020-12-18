@@ -1,13 +1,30 @@
 import React from 'react';
 import Movie from '../components/Movie';
+import { useTraceUpdate } from '../hooks';
 
-const MovieSearchResults = ({ movies, searchText, addNomination, isMovieNominated }) => {
+const MovieSearchResults = React.memo((props) => {
+  console.log('search results');
+  const { movies, searchText, searchError, nominationIDs, setNominationIDs } = props;
+  useTraceUpdate(MovieSearchResults.displayName, props);
+
+  const addNomination = (newNomination) => {
+    const newNominationIDs = {
+      ...nominationIDs,
+      [newNomination.imdbID]: newNomination
+    };
+    setNominationIDs(newNominationIDs);
+  };
+
+  const isMovieNominated = (movieID) => {
+    return nominationIDs[movieID] ? true : false;
+  };
+
   return (
     <div>
       <h3>Results for {`"${searchText}"`}</h3>
-      <ul>
-        {movies.map(m => {
-          return (
+      {!searchError ?
+        <ul>
+          {movies.map(m =>
             <li key={m.imdbID}>
               <Movie movie={m}></Movie>
               <button
@@ -17,12 +34,15 @@ const MovieSearchResults = ({ movies, searchText, addNomination, isMovieNominate
                 Nominate
               </button>
             </li>
-          );
-        }
-        )}
-      </ul>
+          )}
+        </ul>
+        :
+        <p>{searchError}</p>
+      }
     </div>
   );
-};
+});
+
+MovieSearchResults.displayName = 'MovieSearchResults';
 
 export default MovieSearchResults;
