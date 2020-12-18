@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Movie from '../components/Movie';
+import MovieList from '../components/MovieList';
 import { useTraceUpdate } from '../hooks';
 
 const NominationsContainer = styled.div`
@@ -14,6 +14,10 @@ const StyledH3 = styled.h3`
   margin: 0 0 5px 0;
 `;
 
+const StyledButton = styled.button`
+  padding: 0.4em 0.75em;
+`;
+
 const MovieNominations = React.memo((props) => {
   const { nominationIDs, setNominationIDs } = props;
   console.log('nomination');
@@ -25,23 +29,25 @@ const MovieNominations = React.memo((props) => {
     setNominationIDs(newNominationIDs);
   };
 
+  const RemoveButton = ({ movie }) => {
+    return (
+      <StyledButton
+        onClick={() => removeNominationByID(movie.imdbID)}
+      >
+        Remove
+      </StyledButton>
+    );
+  };
+
   const nominatedMovies = Object.values(nominationIDs);
 
   return (
     <NominationsContainer>
       <StyledH3>Nominations</StyledH3>
-      <ul>
-        {nominatedMovies.map(m =>
-          <li key={m.imdbID}>
-            <Movie movie={m}></Movie>
-            <button
-              onClick={() => removeNominationByID(m.imdbID)}
-            >
-              Remove
-            </button>
-          </li>
-        )}
-      </ul>
+      <MovieList
+        movies={nominatedMovies}
+        MovieButton={RemoveButton}
+      />
     </NominationsContainer>
   );
 });

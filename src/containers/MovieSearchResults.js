@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Movie from '../components/Movie';
+import MovieList from '../components/MovieList';
 import { useTraceUpdate } from '../hooks';
 
 const SearchResultsContainer = styled.div`
@@ -12,6 +12,10 @@ const SearchResultsContainer = styled.div`
 
 const StyledH3 = styled.h3`
   margin: 0 0 5px 0;
+`;
+
+const StyledButton = styled.button`
+  padding: 0.4em 0.75em;
 `;
 
 const MovieSearchResults = React.memo((props) => {
@@ -31,23 +35,25 @@ const MovieSearchResults = React.memo((props) => {
     return nominationIDs[movieID] ? true : false;
   };
 
+  const NominateButton = ({ movie }) => {
+    return (
+      <StyledButton
+        onClick={() => addNomination(movie)}
+        disabled={isMovieNominated(movie.imdbID)}
+      >
+        Nominate
+      </StyledButton>
+    );
+  };
+
   return (
     <SearchResultsContainer>
       <StyledH3>Results for {`"${searchText}"`}</StyledH3>
       {!error ?
-        <ul>
-          {movies.map(m =>
-            <li key={m.imdbID}>
-              <Movie movie={m}></Movie>
-              <button
-                onClick={() => addNomination(m)}
-                disabled={isMovieNominated(m.imdbID)}
-              >
-                Nominate
-              </button>
-            </li>
-          )}
-        </ul>
+        <MovieList
+          movies={movies}
+          MovieButton={NominateButton}
+        />
         :
         <p>{error}</p>
       }
