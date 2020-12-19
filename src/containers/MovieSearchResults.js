@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MovieList from '../components/MovieList';
+import { MAX_NOMINATIONS } from '../constants';
 import { useTraceUpdate } from '../hooks';
 import movieService from '../services/movies';
 
@@ -102,8 +103,10 @@ const MovieSearchResults = React.memo((props) => {
     setNominationIDs(newNominationIDs);
   };
 
-  const isMovieNominated = (movieID) => {
-    return nominationIDs[movieID] ? true : false;
+  const isNominatingDisabled = (movieID) => {
+    const isMovieNominated = nominationIDs[movieID] ? true : false;
+    const maxMoviesNominated = Object.keys(nominationIDs).length === MAX_NOMINATIONS;
+    return isMovieNominated || maxMoviesNominated;
   };
 
   // declare inside b/c we need to pass fn to MovieList, not an initialized component
@@ -111,7 +114,7 @@ const MovieSearchResults = React.memo((props) => {
     return (
       <StyledButton
         onClick={() => addNomination(movie)}
-        disabled={isMovieNominated(movie.imdbID)}
+        disabled={isNominatingDisabled(movie.imdbID)}
       >
         Nominate
       </StyledButton>

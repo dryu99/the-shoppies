@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MovieSearchResults from './containers/MovieSearchResults';
 import MovieSearchBar from './containers/MovieSearchBar';
@@ -22,12 +22,18 @@ const MovieListRow = styled.div`
 
 function App() {
   const [searchText, setSearchText] = useState('');
+  const [bannerText, setBannerText] = useState('');
   const [nominationIDs, setNominationIDs] = useState({}); // key = imdbID, val = movie JSON
+
+  useEffect(() => {
+    const maxMoviesNominated = Object.keys(nominationIDs).length === 5;
+    setBannerText(maxMoviesNominated ? 'Max number of nominations selected!' : '');
+  }, [nominationIDs]);
 
   return (
     <>
       <GlobalStyle />
-      <Banner />
+      <Banner text={bannerText}/>
       <Content>
         <MovieSearchBar
           searchText={searchText}
