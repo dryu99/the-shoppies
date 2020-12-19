@@ -4,12 +4,13 @@ import MovieSearchResults from './containers/MovieSearchResults';
 import MovieSearchBar from './containers/MovieSearchBar';
 import MovieNominations from './containers/MovieNominations';
 import GlobalStyle from './GlobalStyle';
+import Banner from './containers/Banner';
 
-const AppContainer = styled.div`
-  padding: 0 7.5em 0 7.5em;
+const Content = styled.div`
+  padding: 5em 7.5em 0 7.5em;
 `;
 
-const ContentContainer = styled.div`
+const MovieListRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -26,13 +27,13 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <AppContainer>
-        <h1>The Shoppies</h1>
+      <Banner />
+      <Content>
         <MovieSearchBar
           searchText={searchText}
           setSearchText={setSearchText}
         />
-        <ContentContainer>
+        <MovieListRow>
           <MovieSearchResults
             searchText={searchText}
             nominationIDs={nominationIDs}
@@ -42,8 +43,8 @@ function App() {
             nominationIDs={nominationIDs}
             setNominationIDs={setNominationIDs}
           />
-        </ContentContainer>
-      </AppContainer>
+        </MovieListRow>
+      </Content>
     </>
   );
 }
