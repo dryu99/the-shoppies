@@ -18,10 +18,8 @@ const StyledButton = styled.button`
   padding: 0.4em 0.75em;
 `;
 
-const MovieNominations = React.memo((props) => {
-  const { nominationIDs, setNominationIDs } = props;
+const MovieNominations = React.memo(({ nominationIDs, setNominationIDs }) => {
   console.log('nomination');
-  useTraceUpdate(MovieNominations.displayName, props);
 
   const removeNominationByID = (nominationID) => {
     const newNominationIDs = { ...nominationIDs };

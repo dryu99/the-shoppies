@@ -16,33 +16,49 @@ const BannerContainer = styled.div`
 `;
 
 const BrandContainer = styled.div`
-  margin: 1em;  
+  margin: 1em; 
+  font-size: 1.5em;
+`;
+
+const NotificationContainer = styled.div`
+  color: #00cc99;
+  text-align: center;
+`;
+
+const AuthorContainer = styled.div`
+  margin: 0.8em;
+  color: white;
+  text-align: right;
+  font-size: 0.9em;
 `;
 
 const StyledLink = styled.a`
-  font-size: 1.5em;
   color: white;
+  text-decoration: none;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
-const StyledH3 = styled.h3`
-  text-align: center;
-  color: #ADFF2F;
-`;
-
-const Banner = ({ text }) => {
+const Banner = React.memo(({ text }) => {
+  console.log('banner');
   return (
     <BannerContainer>
       <BrandContainer>
-        <StyledLink>The Shoppies 👜</StyledLink>
+        <StyledLink href="/">The Shoppies 🏆</StyledLink>
       </BrandContainer>
-      <div>
-        <StyledH3>{text}</StyledH3>
-      </div>
-
-      {/* empty div here so we can center H3 with flex */}
-      <div></div>
+      <NotificationContainer>
+        <h3>{text}</h3>
+      </NotificationContainer>
+      <AuthorContainer>
+        <StyledLink href={'https://en.wikipedia.org/wiki/Daniel_(Elton_John_song)'}>
+          Daniel Ryu
+        </StyledLink> 2020
+      </AuthorContainer>
     </BannerContainer>
   );
-};
+});
+
+Banner.displayName = 'Banner';
 
 export default Banner;
