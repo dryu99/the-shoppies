@@ -72,32 +72,25 @@ const MovieSearchResults = React.memo((props) => {
 
   // if page num is -1 sth went wrong, page navigation should be disabled
   const [pageNum, setPageNum] = useState(-1);
-  const [searchData, setSearchData] = useState({
-    movies: [], total: 0, error: null, isLoading: false
-  });
+  const [searchData, setSearchData] = useState({ movies: [], total: 0, error: null });
 
   // use useCallback here so we can reuse code inside + outside useEffect safely.
   const searchMovies = useCallback(
     (searchText, pageNum) => {
-      // setSearchData({ ...searchData, isLoading: true });
-
       movieService.search(searchText, pageNum)
         .then(newSearchData => {
           setPageNum(pageNum);
-          setSearchData({
-            ...newSearchData, isLoading: false
-          });
+          setSearchData(newSearchData);
         })
         .catch(error => {
           setPageNum(-1);
-          setSearchData({
-            movies: [], total: 0, error: error.message, isLoading: false
-          });
+          setSearchData({ movies: [], total: 0, error: error.message });
         });
     },
     [setPageNum, setSearchData],
   );
 
+  // fetch movies from api when debounced search text changes
   useEffect(() => {
     searchMovies(debouncedSearchText, 1);
   }, [debouncedSearchText]);
@@ -130,8 +123,6 @@ const MovieSearchResults = React.memo((props) => {
 
   return (
     <SearchResultsContainer>
-      {/* {!searchData.isLoading ?
-        <div> */}
       <HeaderContainer>
         <StyledH3>
           {
@@ -160,10 +151,6 @@ const MovieSearchResults = React.memo((props) => {
           ? <p>{searchData.error} Please try another search!</p>
           : null
       }
-      {/* </div>
-        :
-        null
-      } */}
     </SearchResultsContainer>
   );
 });

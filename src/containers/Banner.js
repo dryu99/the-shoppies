@@ -26,7 +26,7 @@ const StyledLink = styled.a`
 
 const StyledH3 = styled.h3`
   text-align: center;
-  color: white;
+  color: #ADFF2F;
 `;
 
 const Banner = ({ text }) => {
