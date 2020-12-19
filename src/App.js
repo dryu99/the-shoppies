@@ -5,6 +5,7 @@ import MovieSearchBar from './containers/MovieSearchBar';
 import MovieNominations from './containers/MovieNominations';
 import GlobalStyle from './GlobalStyle';
 import Banner from './containers/Banner';
+import { MAX_NOMINATIONS } from './constants';
 
 const Content = styled.div`
   padding: 5em 7.5em 0 7.5em;
@@ -21,12 +22,12 @@ const MovieListRow = styled.div`
 `;
 
 function App() {
-  const [searchText, setSearchText] = useState('');
   const [bannerText, setBannerText] = useState('');
+  const [debouncedSearchText, setDebouncedSearchText] = useState('');
   const [nominationIDs, setNominationIDs] = useState({}); // key = imdbID, val = movie JSON
 
   useEffect(() => {
-    const maxMoviesNominated = Object.keys(nominationIDs).length === 5;
+    const maxMoviesNominated = Object.keys(nominationIDs).length === MAX_NOMINATIONS;
     setBannerText(maxMoviesNominated ? 'Max number of nominations selected!' : '');
   }, [nominationIDs]);
 
@@ -36,12 +37,11 @@ function App() {
       <Banner text={bannerText}/>
       <Content>
         <MovieSearchBar
-          searchText={searchText}
-          setSearchText={setSearchText}
+          setDebouncedSearchText={setDebouncedSearchText}
         />
         <MovieListRow>
           <MovieSearchResults
-            searchText={searchText}
+            debouncedSearchText={debouncedSearchText}
             nominationIDs={nominationIDs}
             setNominationIDs={setNominationIDs}
           />

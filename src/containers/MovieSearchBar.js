@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useTraceUpdate } from '../hooks';
 
@@ -22,15 +22,23 @@ const SearchInput = styled.input`
   }
 `;
 
-const MovieSearchBar = React.memo((props) => {
-  const { searchText, setSearchText } = props;
-  console.log('search bar');
-  useTraceUpdate(MovieSearchBar.displayName, props);
+const MovieSearchBar = React.memo(({ setDebouncedSearchText }) => {
+  const [searchText, setSearchText] = useState('');
 
-  const handleSearchTextChange = (e) => {
-    const newSearchText = e.target.value;
-    setSearchText(newSearchText);
-  };
+  console.log('search bar');
+  // useTraceUpdate(MovieSearchBar.displayName, { setDebouncedSearchText });
+
+  // debounce search text changes to avoid repetitive api calls
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      setDebouncedSearchText(searchText);
+    }, 500);
+
+    return () => {
+      // unsubscribe
+      clearTimeout(debounce);
+    };
+  }, [searchText]);
 
   return (
     <SearchContainer>
@@ -38,7 +46,7 @@ const MovieSearchBar = React.memo((props) => {
       <SearchInput
         type="text"
         value={searchText}
-        onChange={handleSearchTextChange}
+        onChange={(e) => setSearchText(e.target.value)}
       />
     </SearchContainer>
   );

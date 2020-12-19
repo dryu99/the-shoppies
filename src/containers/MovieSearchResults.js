@@ -66,34 +66,41 @@ const PageButtonGroup = ({ pageNum, movies, total, handlePrevPage, handleNextPag
 };
 
 const MovieSearchResults = React.memo((props) => {
-  const { searchText, nominationIDs, setNominationIDs } = props;
-  useTraceUpdate(MovieSearchResults.displayName, props);
-  console.log('search results', searchText);
+  const { debouncedSearchText, nominationIDs, setNominationIDs } = props;
+  // useTraceUpdate(MovieSearchResults.displayName, props);
+  console.log('search results', debouncedSearchText);
 
   // if page num is -1 sth went wrong, page navigation should be disabled
-  const [pageNum, setPageNum] = useState(1);
-  const [searchData, setSearchData] = useState({ movies: [], total: 0, error: null });
+  const [pageNum, setPageNum] = useState(-1);
+  const [searchData, setSearchData] = useState({
+    movies: [], total: 0, error: null, isLoading: false
+  });
 
   // use useCallback here so we can reuse code inside + outside useEffect safely.
   const searchMovies = useCallback(
     (searchText, pageNum) => {
+      // setSearchData({ ...searchData, isLoading: true });
+
       movieService.search(searchText, pageNum)
         .then(newSearchData => {
           setPageNum(pageNum);
-          setSearchData(newSearchData);
+          setSearchData({
+            ...newSearchData, isLoading: false
+          });
         })
         .catch(error => {
           setPageNum(-1);
-          setSearchData({ movies: [], total: 0, error: error.message });
+          setSearchData({
+            movies: [], total: 0, error: error.message, isLoading: false
+          });
         });
     },
     [setPageNum, setSearchData],
   );
 
-  // update search results when search text changes
   useEffect(() => {
-    searchMovies(searchText, 1);
-  }, [searchText]);
+    searchMovies(debouncedSearchText, 1);
+  }, [debouncedSearchText]);
 
   const addNomination = (newNomination) => {
     const newNominationIDs = {
@@ -123,12 +130,14 @@ const MovieSearchResults = React.memo((props) => {
 
   return (
     <SearchResultsContainer>
+      {/* {!searchData.isLoading ?
+        <div> */}
       <HeaderContainer>
         <StyledH3>
           {
-            searchText.length === 0
+            debouncedSearchText.length === 0
               ? 'Search up a movie!'
-              : `${searchData.total} results for "${searchText}"`
+              : `${searchData.total} results for "${debouncedSearchText}"`
           }
         </StyledH3>
         <PageContainer>
@@ -137,8 +146,8 @@ const MovieSearchResults = React.memo((props) => {
             pageNum={pageNum}
             movies={searchData.movies}
             total={searchData.total}
-            handlePrevPage={() => searchMovies(searchText, pageNum - 1)}
-            handleNextPage={() => searchMovies(searchText, pageNum + 1)}
+            handlePrevPage={() => searchMovies(debouncedSearchText, pageNum - 1)}
+            handleNextPage={() => searchMovies(debouncedSearchText, pageNum + 1)}
           />
         </PageContainer>
       </HeaderContainer>
@@ -147,10 +156,14 @@ const MovieSearchResults = React.memo((props) => {
         MovieButton={NominateButton}
       />
       {
-        searchData.error !== 'Incorrect IMDb ID.'
-          ? <p>{searchData.error}</p>
+        searchData.error && searchData.error !== 'Incorrect IMDb ID.'
+          ? <p>{searchData.error} Please try another search!</p>
           : null
       }
+      {/* </div>
+        :
+        null
+      } */}
     </SearchResultsContainer>
   );
 });
