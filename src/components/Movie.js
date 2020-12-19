@@ -1,10 +1,15 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const MovieContainer = styled.div`
+  margin-right: 0.75em;
+`;
 
 const Movie = ({ movie }) => {
   return (
-    <span>
+    <MovieContainer>
       {movie.Title} ({movie.Year})
-    </span>
+    </MovieContainer>
   );
 };
 
