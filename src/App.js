@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import MovieSearchResults from './containers/MovieSearchResults';
-import MovieSearchBar from './containers/MovieSearchBar';
-import MovieNominations from './containers/MovieNominations';
+import SearchResults from './containers/SearchResults';
+import SearchBar from './containers/SearchBar';
+import Nominations from './containers/Nominations';
 import GlobalStyle from './GlobalStyle';
 import Banner from './containers/Banner';
 import { MAX_NOMINATIONS } from './constants';
@@ -11,7 +11,7 @@ const Content = styled.div`
   padding: 5em 7.5em 0 7.5em;
 `;
 
-const MovieListRow = styled.div`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -24,32 +24,33 @@ const MovieListRow = styled.div`
 function App() {
   const [bannerText, setBannerText] = useState('');
   const [debouncedSearchText, setDebouncedSearchText] = useState('');
-  const [nominationIDs, setNominationIDs] = useState({}); // key = imdbID, val = movie JSON
+  const [nominations, setNominations] = useState({}); // key = imdbID, val = movie JSON
 
+  // set banner text when max num of nominations are chosen
   useEffect(() => {
-    const maxMoviesNominated = Object.keys(nominationIDs).length === MAX_NOMINATIONS;
+    const maxMoviesNominated = Object.keys(nominations).length === MAX_NOMINATIONS;
     setBannerText(maxMoviesNominated ? 'Max number of nominations selected!' : '');
-  }, [nominationIDs]);
+  }, [nominations]);
 
   return (
     <>
       <GlobalStyle />
       <Banner text={bannerText}/>
       <Content>
-        <MovieSearchBar
+        <SearchBar
           setDebouncedSearchText={setDebouncedSearchText}
         />
-        <MovieListRow>
-          <MovieSearchResults
+        <Row>
+          <SearchResults
             debouncedSearchText={debouncedSearchText}
-            nominationIDs={nominationIDs}
-            setNominationIDs={setNominationIDs}
+            nominations={nominations}
+            setNominations={setNominations}
           />
-          <MovieNominations
-            nominationIDs={nominationIDs}
-            setNominationIDs={setNominationIDs}
+          <Nominations
+            nominations={nominations}
+            setNominations={setNominations}
           />
-        </MovieListRow>
+        </Row>
       </Content>
     </>
   );

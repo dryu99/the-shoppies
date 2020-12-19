@@ -17,7 +17,7 @@ const search = async (searchText, page=1) => {
 };
 
 const requestSuccessful = (omdbData) => {
-  return omdbData.Response.toLowerCase() === 'true' ? true : false;
+  return omdbData.Response.toLowerCase() === 'true';
 };
 
 const filterOutDuplicateMovies = (movies) => {

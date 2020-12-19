@@ -41,7 +41,7 @@ const SearchInput = styled.input`
   }
 `;
 
-const MovieSearchBar = React.memo(({ setDebouncedSearchText }) => {
+const SearchBar = React.memo(({ setDebouncedSearchText }) => {
   const [searchText, setSearchText] = useState('');
   console.log('search bar');
 
@@ -75,6 +75,6 @@ const MovieSearchBar = React.memo(({ setDebouncedSearchText }) => {
   );
 });
 
-MovieSearchBar.displayName = 'MovieSearchBar';
+SearchBar.displayName = 'SearchBar';
 
-export default MovieSearchBar;
+export default SearchBar;

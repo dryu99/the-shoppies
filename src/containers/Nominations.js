@@ -18,13 +18,13 @@ const StyledButton = styled.button`
   padding: 0.4em 0.75em;
 `;
 
-const MovieNominations = React.memo(({ nominationIDs, setNominationIDs }) => {
+const Nominations = React.memo(({ nominations, setNominations }) => {
   console.log('nomination');
 
   const removeNominationByID = (nominationID) => {
-    const newNominationIDs = { ...nominationIDs };
+    const newNominationIDs = { ...nominations };
     delete newNominationIDs[nominationID];
-    setNominationIDs(newNominationIDs);
+    setNominations(newNominationIDs);
   };
 
   const RemoveButton = ({ movie }) => {
@@ -37,7 +37,7 @@ const MovieNominations = React.memo(({ nominationIDs, setNominationIDs }) => {
     );
   };
 
-  const nominatedMovies = Object.values(nominationIDs);
+  const nominatedMovies = Object.values(nominations);
 
   return (
     <NominationsContainer>
@@ -50,6 +50,6 @@ const MovieNominations = React.memo(({ nominationIDs, setNominationIDs }) => {
   );
 });
 
-MovieNominations.displayName = 'MovieNominations';
+Nominations.displayName = 'Nominations';
 
-export default MovieNominations;
+export default Nominations;

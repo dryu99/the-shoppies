@@ -65,12 +65,11 @@ const PageButtonGroup = ({ pageNum, movies, total, handlePrevPage, handleNextPag
   );
 };
 
-const MovieSearchResults = React.memo((props) => {
-  const { debouncedSearchText, nominationIDs, setNominationIDs } = props;
-  // useTraceUpdate(MovieSearchResults.displayName, props);
+const SearchResults = React.memo(({ debouncedSearchText, nominations, setNominations }) => {
+  // useTraceUpdate(SearchResults.displayName, props);
   console.log('search results', debouncedSearchText);
 
-  // if page num is -1 sth went wrong, page navigation should be disabled
+  // if page num is -1 page navigation should be disabled
   const [pageNum, setPageNum] = useState(-1);
   const [searchData, setSearchData] = useState({ movies: [], total: 0, error: null });
 
@@ -97,15 +96,15 @@ const MovieSearchResults = React.memo((props) => {
 
   const addNomination = (newNomination) => {
     const newNominationIDs = {
-      ...nominationIDs,
+      ...nominations,
       [newNomination.imdbID]: newNomination
     };
-    setNominationIDs(newNominationIDs);
+    setNominations(newNominationIDs);
   };
 
   const isNominatingDisabled = (movieID) => {
-    const isMovieNominated = nominationIDs[movieID] ? true : false;
-    const maxMoviesNominated = Object.keys(nominationIDs).length === MAX_NOMINATIONS;
+    const isMovieNominated = nominations[movieID] ? true : false;
+    const maxMoviesNominated = Object.keys(nominations).length === MAX_NOMINATIONS;
     return isMovieNominated || maxMoviesNominated;
   };
 
@@ -155,6 +154,6 @@ const MovieSearchResults = React.memo((props) => {
   );
 });
 
-MovieSearchResults.displayName = 'MovieSearchResults';
+SearchResults.displayName = 'SearchResults';
 
-export default MovieSearchResults;
+export default SearchResults;
