@@ -6,7 +6,6 @@ import { useTraceUpdate } from '../hooks';
 import movieService from '../services/movies';
 
 const MAX_PAGE_COUNT = 100;
-const MAX_MOVIES_COUNT = 10;
 
 const SearchResultsContainer = styled.div`
   margin-right: 1em;
@@ -37,29 +36,30 @@ const StyledButton = styled.button`
 `;
 
 const PageRange = ({ pageNum, movies }) => {
-  const currPageRange = pageNum !== -1
-    ? `${(pageNum * 10) - 9}-${((pageNum - 1) * 10) + movies.length}`
-    : null;
-
-  return currPageRange
-    ? <span>{currPageRange}</span>
-    : null;
+  if (pageNum !== -1) {
+    const pageLowerBound = (pageNum * 10) - 9;
+    const pageUpperBound = ((pageNum - 1) * 10) + movies.length;
+    return <span>{pageLowerBound}-{pageUpperBound}</span>;
+  } else {
+    return null;
+  }
 };
 
-const PageButtonGroup = ({ pageNum, movies, handlePrevPage, handleNextPage }) => {
+const PageButtonGroup = ({ pageNum, movies, total, handlePrevPage, handleNextPage }) => {
+  const prevDisabled = pageNum === 1 || pageNum === -1;
+
+  const pageUpperBound = ((pageNum - 1) * 10) + movies.length;
+  const nextDisabled = pageNum === MAX_PAGE_COUNT
+    || pageUpperBound >= total
+    || pageNum === -1;
+
   return (
     <div>
-      <button
-        onClick={handlePrevPage}
-        disabled={pageNum === 1 || pageNum === -1}
-      >
-        {'<'}
+      <button onClick={handlePrevPage} disabled={prevDisabled}>
+        &lt;
       </button>
-      <button
-        onClick={handleNextPage}
-        disabled={pageNum === MAX_PAGE_COUNT || movies.length < MAX_MOVIES_COUNT || pageNum === -1}
-      >
-        {'>'}
+      <button onClick={handleNextPage} disabled={nextDisabled}>
+        &gt;
       </button>
     </div>
   );
@@ -72,19 +72,19 @@ const MovieSearchResults = React.memo((props) => {
 
   // if page num is -1 sth went wrong, page navigation should be disabled
   const [pageNum, setPageNum] = useState(1);
-  const [{ movies, error }, setSearchData] = useState({ movies: [], error: null });
+  const [searchData, setSearchData] = useState({ movies: [], total: 0, error: null });
 
   // use useCallback here so we can reuse code inside + outside useEffect safely.
   const searchMovies = useCallback(
     (searchText, pageNum) => {
       movieService.search(searchText, pageNum)
-        .then(newMovies => {
+        .then(newSearchData => {
           setPageNum(pageNum);
-          setSearchData({ movies: newMovies, error: null });
+          setSearchData(newSearchData);
         })
         .catch(error => {
           setPageNum(-1);
-          setSearchData({ movies: [], error: error.message });
+          setSearchData({ movies: [], total: 0, error: error.message });
         });
     },
     [setPageNum, setSearchData],
@@ -125,23 +125,32 @@ const MovieSearchResults = React.memo((props) => {
     <SearchResultsContainer>
       <HeaderContainer>
         <StyledH3>
-          {searchText.length === 0 ? 'Search up a movie!' : `Results for "${searchText}"`}
+          {
+            searchText.length === 0
+              ? 'Search up a movie!'
+              : `${searchData.total} results for "${searchText}"`
+          }
         </StyledH3>
         <PageContainer>
-          <PageRange pageNum={pageNum} movies={movies}/>
+          <PageRange pageNum={pageNum} movies={searchData.movies} />
           <PageButtonGroup
             pageNum={pageNum}
-            movies={movies}
+            movies={searchData.movies}
+            total={searchData.total}
             handlePrevPage={() => searchMovies(searchText, pageNum - 1)}
             handleNextPage={() => searchMovies(searchText, pageNum + 1)}
           />
         </PageContainer>
       </HeaderContainer>
       <MovieList
-        movies={movies}
+        movies={searchData.movies}
         MovieButton={NominateButton}
       />
-      {error !== 'Incorrect IMDb ID.' ? <p>{error}</p> : null}
+      {
+        searchData.error !== 'Incorrect IMDb ID.'
+          ? <p>{searchData.error}</p>
+          : null
+      }
     </SearchResultsContainer>
   );
 });
