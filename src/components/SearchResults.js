@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Card, ListItemButton } from '../styles/Common';
 import MovieList from './MovieList';
-import { MAX_NOMINATIONS } from '../constants';
+import { MAX_NOMINATIONS } from '../utils/constants';
 import movieService from '../services/movies';
 import PageNav from './PageNav';
 
@@ -14,7 +14,7 @@ const StyledH3 = styled.h3`
   margin: 0 0 5px 0;
 `;
 
-const SearchResults = React.memo(({ debouncedSearchText, nominations, setNominations }) => {
+const SearchResults = ({ debouncedSearchText, nominations, setNominations }) => {
   const [pageNum, setPageNum] = useState(-1); // if page num is -1 page nav should be disabled
   const [searchData, setSearchData] = useState({ movies: [], total: 0, error: null });
 
@@ -97,8 +97,6 @@ const SearchResults = React.memo(({ debouncedSearchText, nominations, setNominat
       }
     </SearchResultsCard>
   );
-});
-
-SearchResults.displayName = 'SearchResults';
+};
 
 export default SearchResults;

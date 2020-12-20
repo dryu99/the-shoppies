@@ -5,7 +5,7 @@ import SearchResults from './components/SearchResults';
 import SearchBar from './components/SearchBar';
 import Nominations from './components/Nominations';
 import Banner from './components/Banner';
-import { MAX_NOMINATIONS } from './constants';
+import { MAX_NOMINATIONS } from './utils/constants';
 
 const Content = styled.div`
   padding: 5em 7.5em 0 7.5em;
