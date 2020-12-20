@@ -16,8 +16,8 @@ const SearchInputContainer = styled.div`
   align-items: center;
   border: 1.5px solid #bbbbbb;
   border-radius: 3px;
-  &:focus {
-    outline: none;
+  &:focus-within {
+    box-shadow: 0 0 2px;
   }
 `;
 
