@@ -27,6 +27,7 @@ const Nominations = React.memo(({ nominations, setNominations }) => {
     setNominations(newNominationIDs);
   };
 
+  // declare inside b/c we need closure on nomination fns
   const RemoveButton = ({ movie }) => {
     return (
       <StyledButton
