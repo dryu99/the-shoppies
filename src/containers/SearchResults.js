@@ -1,23 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Card, ListItemButton } from '../styles/Common';
 import MovieList from '../components/MovieList';
 import { MAX_NOMINATIONS } from '../constants';
 import movieService from '../services/movies';
 import PageNav from './PageNav';
 
-const SearchResultsContainer = styled.div`
+const SearchResultsCard = styled(Card)`
   margin-right: 1em;
-  padding: 1.5em;
-  background-color: white;
-  border-radius: 3px;
 `;
 
 const StyledH3 = styled.h3`
   margin: 0 0 5px 0;
-`;
-
-const StyledButton = styled.button`
-  padding: 0.4em 0.75em;
 `;
 
 const SearchResults = React.memo(({ debouncedSearchText, nominations, setNominations }) => {
@@ -64,17 +58,17 @@ const SearchResults = React.memo(({ debouncedSearchText, nominations, setNominat
   // declare inside b/c we need closure on nomination fns
   const NominateButton = ({ movie }) => {
     return (
-      <StyledButton
+      <ListItemButton
         onClick={() => addNomination(movie)}
         disabled={isNominatingDisabled(movie.imdbID)}
       >
         Nominate
-      </StyledButton>
+      </ListItemButton>
     );
   };
 
   return (
-    <SearchResultsContainer>
+    <SearchResultsCard>
       <StyledH3>
         {
           debouncedSearchText.length === 0
@@ -101,7 +95,7 @@ const SearchResults = React.memo(({ debouncedSearchText, nominations, setNominat
           ? <p>{searchData.error} Please try another search!</p>
           : null
       }
-    </SearchResultsContainer>
+    </SearchResultsCard>
   );
 });
 

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MagnifyingGlassIcon from '../assets/magnifying-glass.svg';
+import { Card } from '../styles/Common';
 
-const SearchContainer = styled.div`
+const SearchCard = styled(Card)`
   margin-bottom: 2em;
-  padding: 1.5em;
-  background-color: white;
-  border-radius: 3px;
 `;
 
 const StyledH4 = styled.h4`
@@ -16,7 +14,7 @@ const StyledH4 = styled.h4`
 const SearchInputContainer = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid black;
+  border: 1.5px solid #bbbbbb;
   border-radius: 3px;
   &:focus {
     outline: none;
@@ -56,7 +54,7 @@ const SearchBar = React.memo(({ setDebouncedSearchText }) => {
   }, [searchText]);
 
   return (
-    <SearchContainer>
+    <SearchCard>
       <StyledH4>Movie Title</StyledH4>
       <SearchInputContainer>
         <SearchImage
@@ -69,7 +67,7 @@ const SearchBar = React.memo(({ setDebouncedSearchText }) => {
           onChange={(e) => setSearchText(e.target.value)}
         />
       </SearchInputContainer>
-    </SearchContainer>
+    </SearchCard>
   );
 });
 

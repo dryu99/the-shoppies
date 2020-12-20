@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SearchResults from './containers/SearchResults';
 import SearchBar from './containers/SearchBar';
 import Nominations from './containers/Nominations';
-import GlobalStyle from './GlobalStyle';
+import GlobalStyle from './styles/GlobalStyle';
 import Banner from './containers/Banner';
 import { MAX_NOMINATIONS } from './constants';
 
@@ -27,8 +27,6 @@ function App() {
   const [nominations, setNominations] = useState({});
   const [bannerText, setBannerText] = useState('');
   const [debouncedSearchText, setDebouncedSearchText] = useState('');
-
-
 
   // set banner text when max num of nominations are chosen
   useEffect(() => {
