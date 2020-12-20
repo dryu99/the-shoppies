@@ -9,7 +9,6 @@ const Movie = ({ movie }) => {
   return (
     <MovieContainer>
       {movie.Title} ({movie.Year})
-      {/* <img src={movie.Poster} /> */}
     </MovieContainer>
   );
 };

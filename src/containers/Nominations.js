@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import MovieList from '../components/MovieList';
-import { useTraceUpdate } from '../hooks';
 
 const NominationsContainer = styled.div`
   margin-left: 1em;
@@ -19,8 +18,6 @@ const StyledButton = styled.button`
 `;
 
 const Nominations = React.memo(({ nominations, setNominations }) => {
-  console.log('nomination');
-
   const removeNominationByID = (nominationID) => {
     const newNominationIDs = { ...nominations };
     delete newNominationIDs[nominationID];

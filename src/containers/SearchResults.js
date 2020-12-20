@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MovieList from '../components/MovieList';
 import { MAX_NOMINATIONS } from '../constants';
-import { useTraceUpdate } from '../hooks';
 import movieService from '../services/movies';
 import PageNav from './PageNav';
 
@@ -22,11 +21,7 @@ const StyledButton = styled.button`
 `;
 
 const SearchResults = React.memo(({ debouncedSearchText, nominations, setNominations }) => {
-  // useTraceUpdate(SearchResults.displayName, props);
-  console.log('search results', debouncedSearchText);
-
-  // if page num is -1 page navigation should be disabled
-  const [pageNum, setPageNum] = useState(-1);
+  const [pageNum, setPageNum] = useState(-1); // if page num is -1 page nav should be disabled
   const [searchData, setSearchData] = useState({ movies: [], total: 0, error: null });
 
   // use useCallback here so we can reuse code inside + outside useEffect safely.

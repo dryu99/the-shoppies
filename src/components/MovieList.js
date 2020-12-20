@@ -16,7 +16,7 @@ const ListItemContainer = styled.div`
   align-items: flex-start;
 `;
 
-// use 'MovieButton' component prop so movie lists can init any button for each movie.
+// pass 'MovieButton' component prop to let movie lists use any button.
 const MovieList = ({ movies, MovieButton }) => {
   return (
     <List>

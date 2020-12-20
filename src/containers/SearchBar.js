@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useTraceUpdate } from '../hooks';
 import MagnifyingGlassIcon from '../assets/magnifying-glass.svg';
 
 const SearchContainer = styled.div`
@@ -43,7 +42,6 @@ const SearchInput = styled.input`
 
 const SearchBar = React.memo(({ setDebouncedSearchText }) => {
   const [searchText, setSearchText] = useState('');
-  console.log('search bar');
 
   // debounce search text changes to avoid repetitive api calls
   useEffect(() => {

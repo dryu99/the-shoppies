@@ -22,9 +22,13 @@ const Row = styled.div`
 `;
 
 function App() {
+  // using dictionary for nominations so movie lists can determine nominated titles in O(1)
+  // key = imdbID, val = movie JSON
+  const [nominations, setNominations] = useState({});
   const [bannerText, setBannerText] = useState('');
   const [debouncedSearchText, setDebouncedSearchText] = useState('');
-  const [nominations, setNominations] = useState({}); // key = imdbID, val = movie JSON
+
+
 
   // set banner text when max num of nominations are chosen
   useEffect(() => {
