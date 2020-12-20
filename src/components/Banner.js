@@ -41,7 +41,6 @@ const StyledLink = styled.a`
 `;
 
 const Banner = React.memo(({ text }) => {
-  console.log('banner');
   return (
     <BannerContainer>
       <BrandContainer>
