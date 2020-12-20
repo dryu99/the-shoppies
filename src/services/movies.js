@@ -1,5 +1,5 @@
 // this module is used for communicating with omdb api
-const baseUrl = 'http://www.omdbapi.com/?apikey=fbc21677&type=movie';
+const baseUrl = 'https://www.omdbapi.com/?apikey=fbc21677&type=movie';
 
 const search = async (searchText, page=1) => {
   const response = await fetch(`${baseUrl}&s=${searchText}&page=${page}`);
