@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Card, ListItemButton } from '../styles/Common';
-import MovieList from '../components/MovieList';
+import MovieList from './MovieList';
 import { MAX_NOMINATIONS } from '../constants';
 import movieService from '../services/movies';
 import PageNav from './PageNav';

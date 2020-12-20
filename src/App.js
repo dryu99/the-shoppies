@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import SearchResults from './containers/SearchResults';
-import SearchBar from './containers/SearchBar';
-import Nominations from './containers/Nominations';
 import GlobalStyle from './styles/GlobalStyle';
-import Banner from './containers/Banner';
+import SearchResults from './components/SearchResults';
+import SearchBar from './components/SearchBar';
+import Nominations from './components/Nominations';
+import Banner from './components/Banner';
 import { MAX_NOMINATIONS } from './constants';
 
 const Content = styled.div`

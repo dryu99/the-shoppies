@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Card, ListItemButton } from '../styles/Common';
-import MovieList from '../components/MovieList';
+import MovieList from './MovieList';
 
 const NominationsCard = styled(Card)`
   margin-left: 1em;
