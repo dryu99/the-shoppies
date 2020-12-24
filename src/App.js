@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import ThemeProvider from './styles/ThemeProvider';
 import GlobalStyle from './styles/GlobalStyle';
 import SearchResults from './components/SearchResults';
 import SearchBar from './components/SearchBar';
@@ -44,7 +45,7 @@ function App() {
   }, [setNominations]);
 
   return (
-    <>
+    <ThemeProvider>
       <GlobalStyle />
       <Banner text={bannerText}/>
       <Content>
@@ -63,7 +64,7 @@ function App() {
           />
         </Row>
       </Content>
-    </>
+    </ThemeProvider>
   );
 }
 

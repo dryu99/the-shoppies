@@ -14,11 +14,12 @@ const StyledH4 = styled.h4`
 const SearchInputContainer = styled.div`
   display: flex;
   align-items: center;
+  margin: 1em;
   border: 1.5px solid #bbbbbb;
   border-radius: 3px;
+  transition: all 0.2s ease;
   &:focus-within {
-    box-shadow: 0 0 2px;
-    border-color: #00cc99;
+    box-shadow: 0 0 0 2px ${p => p.theme.colors.primary};
   }
 `;
 

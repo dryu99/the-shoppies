@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Card = styled.div`
   padding: 1.5em;
-  background-color: white;
-  border: 1px solid #d6d6d6;
+  background-color: ${p => p.theme.colors.foreground};
+  border: 1px solid ${p => p.theme.colors.border};
   border-radius: 3px;
 `;
 

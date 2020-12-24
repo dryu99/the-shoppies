@@ -7,26 +7,25 @@ const BannerContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 3.5em;
-  background-color: #343a40;
+  background-color: ${p => p.theme.colors.secondary};
   position: fixed;
   top: 0;
   & > div {
+    margin: 20px;
     flex: 1;
   }
 `;
 
 const BrandContainer = styled.div`
-  margin: 1em; 
   font-size: 1.5em;
 `;
 
 const NotificationContainer = styled.div`
-  color: #00cc99;
+  color: ${p => p.theme.colors.primary};
   text-align: center;
 `;
 
 const AuthorContainer = styled.div`
-  margin: 0.8em;
   color: white;
   text-align: right;
   font-size: 0.9em;
@@ -35,8 +34,9 @@ const AuthorContainer = styled.div`
 const StyledLink = styled.a`
   color: white;
   text-decoration: none;
+  transition: color 0.2s ease;
   &:hover {
-    opacity: 0.8;
+    color: ${p => p.theme.colors.primary};
   }
 `;
 

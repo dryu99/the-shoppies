@@ -23,7 +23,7 @@ ${p =>
     p.selected &&
   `
     color: white;
-    background-color: #343a40;
+    background-color: ${p.theme.colors.secondary};
   `};
 `;
 
