@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const MAX_PAGE_LENGTH = 10;
+const MAX_PG_LENGTH = 10;
+const MAX_CENTER_PG_NUM_OFFSET = 2; // i.e. max # of index btns on either side of center btn
 
 const PageNavContainer = styled.div`
   display: flex;
@@ -27,8 +28,8 @@ ${p =>
 `;
 
 const PageRange = ({ pageNum, pageLength, totalResults }) => {
-  const lowerBound = (pageNum * MAX_PAGE_LENGTH) - (MAX_PAGE_LENGTH - 1);
-  const upperBound = ((pageNum - 1) * MAX_PAGE_LENGTH) + pageLength;
+  const lowerBound = (pageNum * MAX_PG_LENGTH) - (MAX_PG_LENGTH - 1);
+  const upperBound = ((pageNum - 1) * MAX_PG_LENGTH) + pageLength;
 
   return (
     <div>
@@ -40,7 +41,7 @@ const PageRange = ({ pageNum, pageLength, totalResults }) => {
 };
 
 const PageSelection = ({ pageNum, totalResults, selectPage }) => {
-  const lastPageNum = Math.ceil(totalResults / MAX_PAGE_LENGTH);
+  const lastPageNum = Math.ceil(totalResults / MAX_PG_LENGTH);
   const prevDisabled = pageNum === 1;
   const nextDisabled = pageNum === lastPageNum;
 
@@ -68,8 +69,12 @@ const PageSelection = ({ pageNum, totalResults, selectPage }) => {
 };
 
 const IndexButtonGroup = ({ pageNum, lastPageNum, selectPage }) => {
-  const lowerBound = pageNum > 2 ? pageNum - 2 : 1;
-  const upperBound = pageNum + 2 > lastPageNum ? lastPageNum : pageNum + 2;
+  const lowerBound = pageNum > MAX_CENTER_PG_NUM_OFFSET
+    ? pageNum - MAX_CENTER_PG_NUM_OFFSET
+    : 1;
+  const upperBound = pageNum + MAX_CENTER_PG_NUM_OFFSET > lastPageNum
+    ? lastPageNum
+    : pageNum + MAX_CENTER_PG_NUM_OFFSET;
 
   const buttonsLength = upperBound - lowerBound + 1;
 
