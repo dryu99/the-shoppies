@@ -5,7 +5,7 @@ import SearchResults from './components/SearchResults';
 import SearchBar from './components/SearchBar';
 import Nominations from './components/Nominations';
 import Banner from './components/Banner';
-import { MAX_NOMINATIONS } from './utils/constants';
+import { MAX_NOMINATIONS, NOMINATIONS_CACHE_KEY } from './utils/constants';
 
 const Content = styled.div`
   padding: 5em 7.5em 0 7.5em;
@@ -33,6 +33,15 @@ function App() {
     const maxMoviesNominated = Object.keys(nominations).length === MAX_NOMINATIONS;
     setBannerText(maxMoviesNominated ? 'Max number of nominations selected!' : '');
   }, [nominations]);
+
+  // retrieve and set cached nominations
+  useEffect(() => {
+    const nominationsJSON = localStorage.getItem(NOMINATIONS_CACHE_KEY);
+    const cachedNominations = JSON.parse(nominationsJSON);
+    if (cachedNominations) {
+      setNominations(cachedNominations);
+    }
+  }, [setNominations]);
 
   return (
     <>

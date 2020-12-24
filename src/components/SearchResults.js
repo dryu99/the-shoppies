@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Card, ListItemButton } from '../styles/Common';
 import MovieList from './MovieList';
-import { MAX_NOMINATIONS } from '../utils/constants';
+import { MAX_NOMINATIONS, NOMINATIONS_CACHE_KEY } from '../utils/constants';
 import movieService from '../services/movies';
 import PageNav from './PageNav';
 
@@ -42,11 +42,14 @@ const SearchResults = ({ debouncedSearchText, nominations, setNominations }) => 
   };
 
   const addNomination = (newNomination) => {
-    const newNominationIDs = {
+    const newNominations = {
       ...nominations,
       [newNomination.imdbID]: newNomination
     };
-    setNominations(newNominationIDs);
+    setNominations(newNominations);
+
+    // cache locally
+    localStorage.setItem(NOMINATIONS_CACHE_KEY, JSON.stringify(newNominations));
   };
 
   const isNominatingDisabled = (movieID) => {
