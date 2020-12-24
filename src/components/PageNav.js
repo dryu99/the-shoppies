@@ -13,12 +13,16 @@ const PageNavContainer = styled.div`
   }
 `;
 
-const PageButton = styled.button`
+const PageNavButton = styled.button`
+  width: 2.5em;
+`;
+
+const PageIndexButton = styled(PageNavButton)`
 ${p =>
     p.selected &&
   `
     color: white;
-    background-color: blue;
+    background-color: #343a40;
   `};
 `;
 
@@ -42,23 +46,23 @@ const PageSelection = ({ pageNum, totalResults, selectPage }) => {
 
   return (
     <div>
-      <button
+      <PageNavButton
         onClick={() => selectPage(1)}
         disabled={prevDisabled}
       >
         &lt;
-      </button>
+      </PageNavButton>
       <IndexButtonGroup
         pageNum={pageNum}
         lastPageNum={lastPageNum}
         selectPage={selectPage}
       />
-      <button
+      <PageNavButton
         onClick={() => selectPage(lastPageNum)}
         disabled={nextDisabled}
       >
         &gt;
-      </button>
+      </PageNavButton>
     </div>
   );
 };
@@ -77,13 +81,13 @@ const IndexButtonGroup = ({ pageNum, lastPageNum, selectPage }) => {
       {indexList.map(n => {
         const buttonNum = n + lowerBound;
         return (
-          <PageButton
+          <PageIndexButton
             key={n}
             onClick={() => selectPage(buttonNum)}
             selected={pageNum === buttonNum}
           >
             {buttonNum}
-          </PageButton>
+          </PageIndexButton>
         );
       })}
     </>

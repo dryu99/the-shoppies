@@ -41,16 +41,19 @@ const StyledLink = styled.a`
 `;
 
 const Banner = React.memo(({ text }) => {
+  // eslint-disable-next-line no-undef
+  const homeURL = process.env.NODE_ENV === 'development' ? '/' : '/the-shoppies-2021/';
+
   return (
     <BannerContainer>
       <BrandContainer>
-        <StyledLink href="/">The Shoppies 🏆</StyledLink>
+        <StyledLink href={homeURL}>The Shoppies 🏆</StyledLink>
       </BrandContainer>
       <NotificationContainer>
         <h3>{text}</h3>
       </NotificationContainer>
       <AuthorContainer>
-        <StyledLink href={'https://en.wikipedia.org/wiki/Daniel_(Elton_John_song)'}>
+        <StyledLink href="https://en.wikipedia.org/wiki/Daniel_(Elton_John_song)">
           Daniel Ryu
         </StyledLink> 2020
       </AuthorContainer>

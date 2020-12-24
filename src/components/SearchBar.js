@@ -18,6 +18,7 @@ const SearchInputContainer = styled.div`
   border-radius: 3px;
   &:focus-within {
     box-shadow: 0 0 2px;
+    border-color: #00cc99;
   }
 `;
 
