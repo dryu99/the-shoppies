@@ -21,8 +21,11 @@ const BrandContainer = styled.div`
 `;
 
 const NotificationContainer = styled.div`
-  color: ${p => p.theme.colors.primary};
   text-align: center;
+`;
+
+const StyledH3 = styled.h3`
+  color: ${p => p.theme.colors.primary};
 `;
 
 const AuthorContainer = styled.div`
@@ -50,7 +53,7 @@ const Banner = React.memo(({ text }) => {
         <StyledLink href={homeURL}>The Shoppies 🏆</StyledLink>
       </BrandContainer>
       <NotificationContainer>
-        <h3>{text}</h3>
+        <StyledH3>{text}</StyledH3>
       </NotificationContainer>
       <AuthorContainer>
         <StyledLink href="https://en.wikipedia.org/wiki/Daniel_(Elton_John_song)">
