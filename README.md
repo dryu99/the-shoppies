@@ -4,9 +4,7 @@
 
 Check it out [here](https://dryu99.github.io/the-shoppies-2021/)!
 
-<br>
-
-### Tech Stack
+## Tech Stack
 - JavaScript
 - React.js
 
@@ -15,9 +13,7 @@ I considered using TypeScript but decided against it because:
 - I don't have much experience using TypeScript with React and wanted to focus on shipping a functioning product on time.
 - I figured I could come back to refactor the codebase to use TypeScript later on if it felt appropriate.
 
-<br>
-
-### Additional Features
+## Additional Features
 - **Pagination**:   
 
   Supporting pagination was my highest priority because I felt it was important that users could see all available results for a given search. The OMDb API only returns 10 results max for each search request, so if pagination wasn't implemented, users may not be able to find their desired movies. For example, users might try searching for movies with a partially complete title, or might choose to browse all movies that contain a given word.
@@ -27,15 +23,13 @@ I considered using TypeScript but decided against it because:
 - **Save nominations if user leaves page**:
 
   Since the site is supposed to keep track of user selections, I thought it would be appropriate to persist their selections even after page close.
-  
-<br>
 
-### Challenges
+## Challenges
 - Deciding how to handle state
 - Implementing pagination and debounced search
 - Reducing duplicated code between Nominations and SearchResults components
 
-### Next Steps
+## Next Steps
 Below is a list of things I would work on next if this had been a full-scale project with a longer timeline. I decided not to implement these features because I wanted to focus on delivering a functioning product on time and avoid overengineering.
 
 - Refactor to TypeScript
