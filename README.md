@@ -6,7 +6,7 @@
 
 ![Image of Shoppies Site](./shoppies-screenshot.png)
 
-Check it out [here](https://dryu99.github.io/the-shoppies-2021/)!
+Check it out [here](https://dryu99.github.io/the-shoppies/)!
 
 ## Tech Stack
 - JavaScript

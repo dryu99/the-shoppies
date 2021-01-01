@@ -45,7 +45,7 @@ const StyledLink = styled.a`
 
 const Banner = React.memo(({ text }) => {
   // eslint-disable-next-line no-undef
-  const homeURL = process.env.NODE_ENV === 'development' ? '/' : '/the-shoppies-2021/';
+  const homeURL = process.env.NODE_ENV === 'development' ? '/' : '/the-shoppies/';
 
   return (
     <BannerContainer>
