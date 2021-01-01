@@ -1,13 +1,17 @@
 # The Shoppies 🏆
 
-**2021 Shopify challenge for Front-end Development**: Build a webpage that can search for movies and allow users to nominate their favourite films.
+### 2021 Shopify challenge for Front-end Development
+
+*"Build a webpage that allows users search for movies and nominate their favourite films."*
+
+![Image of Shoppies Site](./shoppies-screenshot.png)
 
 Check it out [here](https://dryu99.github.io/the-shoppies-2021/)!
 
 ## Tech Stack
 - JavaScript
 - React.js
-- [styled-components](https://styled-components.com/) (styling library)
+- [styled-components](https://styled-components.com/)
 
 I considered using TypeScript but decided against it because:
 - The scope of the challenge was relatively small and I didn't want to over-engineer.
@@ -47,9 +51,8 @@ Below is a list of things I would work on next if this had been a full-scale pro
 - Show more metadata for each movie
 - Add 'Card View' and 'List View' options for movie list components
 - Give users the option to see more than 10 movies in the search results
-- Add filters to search bar (e.g. year)
+- Add filters to search bar (e.g. year, director)
 - Mobile responsiveness
 - Better web responsiveness for certain scenarios (e.g. tiny screens)
 - More styling ooo
-
 
