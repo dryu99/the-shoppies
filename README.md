@@ -15,7 +15,7 @@ Check it out [here](https://dryu99.github.io/the-shoppies/)!
 
 I considered using TypeScript but decided against it because:
 - The scope of the challenge was relatively small and I didn't want to over-engineer.
-- I don't have much experience using TypeScript with React and wanted to focus on fulfilling the core requirements and delivering a product on time.
+- I don't have much experience using TypeScript with React and wanted to focus on delivering a functioning product on time.
 - I figured I could come back to refactor the codebase to use TypeScript later on if it felt appropriate.
 
 ## Additional Features
@@ -34,7 +34,7 @@ I considered using TypeScript but decided against it because:
 ## Challenges
 - **Scope Creep**
   
-  It was hard deciding what features to keep and what to cut because there were so many things I wanted to do, but I knew I had to prioritize a limited set of features. Shipping a working product on time was more important.
+  It was hard deciding what features to keep and what to cut because there were so many things I wanted to do, but I knew I had to prioritize a limited set of features. Fulfilling the core requirements and shipping a working product on time was more important to me.
 
 - **State management**:
 
